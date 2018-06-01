@@ -1,0 +1,47 @@
+<div id="download-history-modal">
+    <header class="modal-header">
+        <h3 class="text-center">Download History</h3>
+        <button ng-click="closeModal()" type="button" class="close"><i class="fa fa-close"></i></button>
+    </header>
+    <main class="modal-body">
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Your Current Version</th>
+                        <th>Latest Version</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="scroll-container">
+                    <tr ng-repeat="item in modalState.historyItems | orderBy:'Title'">
+                        <td class="text-primary clickable" ng-bind="item.Title" ng-click="openNewWindow(item.ID)"></td>
+                        <td class="text-center" ng-bind="item.user_version"></td>
+                        <td class="text-center" ng-bind="item.latest_version"></td>
+                        <td>
+                           <button class="btn ng-class:{'btn-success':item.user_version === item.latest_version, 'btn-primary':item.user_version !== item.latest_version}" ng-click="download(item.ID)">
+                               <span ng-bind="item.user_version === item.latest_version ? 'Download' : 'Update'"></span>
+                           </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer class="modal-footer">
+        <div ng-if="modalState.showDownloadProgressBar" class="animated fadeInUp upload-bar">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin={{modalState.downloadProgress}} aria-valuemax="100" ng-attr-style="width:{{modalState.downloadProgress}}%">
+                </div>
+            </div>
+            <div id="progress-bar-message" class="text-center">
+                <p class="animated ng-class:{'fadeOutUp':modalState.downloadProgress === 100}">Downloading File…</p>
+            </div>
+        </div>        
+        <div class="text-center text-muted"><br/>Total Items: <span ng-bind="modalState.historyItems.length"></span></div>
+        <div class="pull-right">
+            <button class="btn btn-danger" style="margin-top: -39px;" ng-click="closeModal()">Close</button>
+        </div>
+    </footer>
+</div>

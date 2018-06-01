@@ -1,0 +1,38 @@
+<div id="version-history-modal">
+    <header class="modal-header">
+        <button ng-click="closeModal()" type="button" class="close"><i class="fa fa-close"></i></button>
+    </header>
+    <main class="modal-body">
+        <h3>Version History for <span ng-bind="::modalState.Title"></span></h3>
+        <div class="scroll-container">
+            <table class="table">
+                <tbody>
+                    <tr ng-repeat="row in modalState.file_metadata | filter:{default:0}">
+                        <td>
+                            <div><span class="box" ng-bind="'V'+row.id"></span></div>
+                        </td>
+                        <td>
+                            <div>
+                                <p><strong ng-bind="'Version ' + row.id"></strong> <span class="text-muted">by</span> <a ng-href="mailto:{{row.email}}"><span class="text-muted" ng-bind="row.modifiedBy"></span></a></p>
+                                <p><small ng-bind="row.comment"></small></p>
+                                <p class="no-margins"><small class="text-muted" ng-bind="row.lastModified | date:'d MMM yyyy \'at\' h:mm a'"></small></p>
+                                <p><small class="text-muted" ng-bind="'Download count: ' + row.downloadCount"></small></p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="pull-right">
+                                <button class="btn btn-primary" ng-click="download(row.id, row.filelink, row.type)"><i class="fa fa-cloud-download"></i> Download</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer class="modal-footer">
+        <div class="text-center text-muted"><br/>Total Items: <span ng-bind="modalState.file_metadata.length - 1"></span></div>
+        <div class="pull-right">
+            <button class="btn btn-danger" style="margin-top: -39px;" ng-click="closeModal()">Close</button>
+        </div>
+    </footer>
+</div>

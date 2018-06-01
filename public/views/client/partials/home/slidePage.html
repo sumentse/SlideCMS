@@ -1,0 +1,53 @@
+<div id="slide-details" class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div id="main-content" class="col-xs-12" ng-switch on="slidePage.slide_type">
+                <div class="col-xs-12 col-sm-6">
+                    <div id="title-detail" ng-bind="slidePage.Title"></div>
+                    <p id="description" ng-bind="slidePage.slide_description"></p>
+                    <p><strong>Date Modified:</strong> <span class="text-muted" ng-bind="slidePage.Modified | date:'medium'"></span> <span class="text-muted">by</span> <a ng-href="mailto:{{slidePage.UserProfileProperties.WorkEmail.Value}}"><span class="text-muted" ng-bind="::slidePage.UserProfileProperties.FirstName.Value + ' ' + slidePage.UserProfileProperties.LastName.Value"></span></a></p>
+                    <p><strong ng-bind="slidePage.slide_type"></strong></p>
+                    <div id="badges"><span class="badge" ng-repeat="tag in slidePage.slide_categories | limitTo:10" ng-bind="::tag"></span></div>
+                    <br/>
+                    <br/>
+                    <button class="btn btn-success" ng-click="download()"><i class="fa fa-cloud-download"></i> Download</button>
+                    <button class="btn btn-primary" ng-click="openVersionHistory()" ng-if="slidePage.file_metadata.length > 1"><i class="fa fa-clock-o"></i> Previous Versions <span class="badge" ng-bind="::slidePage.file_metadata.length - 1"></span></button>
+                    <br/><br/>
+                    <div ng-if="slidePage.showDownloadProgressBar" class="animated fadeInUp upload-bar">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin={{slidePage.downloadProgress}} aria-valuemax="100" ng-attr-style="width:{{slidePage.downloadProgress}}%">
+                            </div>
+                        </div>
+                        <div id="progress-bar-message" class="text-center">
+                            <p class="animated ng-class:{'fadeOutUp':slidePage.downloadProgress === 100}">Downloading File…</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="slide-cover" class="col-xs-12 col-sm-6" ng-switch-when="Keynote">
+                    <img ng-src="{{getImage(slidePage.file_metadata)}}" alt="">
+                </div>
+                <div id="slide-preview" class="col-xs-12 col-sm-6" ng-switch-when="Powerpoint">
+                    <iframe ng-src="{{getIFrameLink()}}" frameborder="0"></iframe>
+                    <div id="hider"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<br/>
+<div id="more-templates" ng-init="fetchSimilarTemplates()" class="container animated fadeIn" ng-show="slidePage.alikeTemplates.length > 0">
+    <div class="row">
+        <h1 class="text-center">More slides like this</h1>
+        <br/>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 clickable alike-template-items" ng-repeat="template in slidePage.alikeTemplates" ui-sref="app.client.central.template({id:template.ID})">
+            <img ng-src="{{getImage(template.file_metadata)}}" style="width: 100%" alt="">
+            <div style="margin-top:5px"><span><strong><span class="slide-title" ng-bind="template.Title"></span></strong>
+                </span><span class="file-type pull-right" ng-bind="template.slide_type"></span></div>
+            <br/>
+            <br/>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<nav class="navbar my-navbar">
+    <div class="navbar-header">
+        <img src="brand.svg" alt="brand logo">
+    </div>
+    <ul class="nav navbar-nav">
+        <li><a class="ng-class:{'active':clientState.$state.is('app.client.central') || clientState.$state.includes('app.client.central.template')}" ui-sref="app.client.central"><i class="fa fa-home fa-fw fa-2x vertical-align"></i> <span>Home</span> <span class="fa fa-chevron-right fa-fw fa-2x pull-right text-primary"></span></a></li>
+        <li><a class="ng-class:{'active':clientState.$state.is('app.client.central.slide.add')}" ui-sref="app.client.central.slide.add"><i class="fa fa-plus fa-fw fa-2x vertical-align"></i> <span>Add Slide</span><span class="fa fa-chevron-right fa-fw fa-2x pull-right text-primary"></span></a></li>
+        <li><a class="ng-class:{'active':clientState.$state.is('app.client.central.slide') || clientState.$state.includes('app.client.central.slide.edit')}" ui-sref="app.client.central.slide"><i class="fa fa-wrench fa-fw fa-2x vertical-align"></i> <span>Manage Slides</span><span class="fa fa-chevron-right fa-fw fa-2x pull-right text-primary"></span></a></li>
+        <li ng-if="clientState.is_admin === 1"><a ui-sref="app.administration.dashboard"><i class="fa fa-cog fa-fw fa-2x vertical-align"></i> <span>Administration</span><span class="fa fa-chevron-right fa-fw fa-2x pull-right text-primary"></span></a></li>
+    </ul>
+    <div id="help-me" ng-hide="clientState.$state.includes('app.client.central.template') || clientState.$state.is('app.client.central') || clientState.$state.includes('app.client.central.error')" ng-click="$root.showGuide()"><i class="text-primary fa fa-question-circle fa-2x clickable"></i></div>
+</nav>

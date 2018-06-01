@@ -1,0 +1,65 @@
+<div id="new-user">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Add</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <form name="add_user" ng-submit="submitThis()" method="POST">
+                <div class="form-group col-xs-12 col-sm-7 col-lg-8">
+                    <div class="input-group">
+                        <input type="text" ng-model="userState.search" my-enter="search(userState.search, userState.searchLimit)" class="form-control" placeholder="Search through name (lastname, firstname) or email" />
+                        <span class="input-group-btn">
+				        <button class="btn btn-primary" type="button" ng-click="search(userState.search, userState.searchLimit)"><i class="fa fa-search"></i> Search</button>
+					</span>
+                    </div>
+                </div>
+                <div class="form-group form-inline col-xs-12 col-sm-5 col-lg-4">
+                    <div>
+                        <label for="limitResults">Limit Search Results: </label>
+                        <select name="limitResults" ng-model="userState.searchLimit" class="form-control" ng-change="search(userState.search, userState.searchLimit)">
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <br/>
+            <br/>
+            <br/>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row" ng-show="userState.display.length !== 0">
+        <div class="col-lg-12 table-responsive">
+            <table class="table" st-table="userState.display" st-safe-src="userState.srcDisplay">
+                <thead>
+                    <tr>
+                        <th class="clickable" st-sort="Title">Name/Dept</th>
+                        <th class="clickable" st-sort="Email">Email</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in userState.display" ng-form="myForm">
+                        <td ng-bind="row.Title"></td>
+                        <td><a ng-href="mailto: {{row.Email}}"><span ng-bind="row.Email"></span></a></td>
+                        <td>
+                            <select ng-options="is_admin as is_admin.name for is_admin in userState.statusCategoryList track by is_admin.name" ng-model="row.is_admin" class="form-control" ng-init="row.is_admin = userState.statusCategoryList[0]"></select>
+                        </td>
+                        <td>
+                            <div>
+                                <button class="btn btn-success" ng-click="addUser(row)"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div ng-init="init()" ng-switch on="signupState.ready">
+    <div ng-switch-when="false">
+        <div ui-view="loader"></div>
+    </div>
+    <div id="signup" class="jumbotron" ng-switch-when="true">
+        <div class="container text-center">
+        	<h2>Join today</h2>
+            <p>Hello, looks like you are a new user. <br/>Please select Sign up to begin to use SlideCentral. <br/>For best user experience use Google Chrome.</p>
+            <br/>
+            <p>Currently you are login as <br/><span ng-bind="user.DisplayName"></span></p>
+            <div>
+    	        <button class="btn btn-primary btn-lg" ng-click="signup()" ng-disabled="signupState.disableBtn">Sign up</button>
+            	<button class="btn btn-danger btn-danger btn-lg" onClick="window.location.href = 'https://one.mskcc.org/sites/pub/pages/default.aspx'">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

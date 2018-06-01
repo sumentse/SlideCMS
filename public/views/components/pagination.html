@@ -1,0 +1,10 @@
+<nav ng-show="totalItemCount > 0">
+  <ul class="pagination">
+    <li><a ng-click="selectPage(1)">First</a>
+    </li><li><a ng-click="selectPage(currentPage - 1)"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+    </li><li><a><page-select></page-select> of {{numPages}}</a>
+    </li><li><a ng-click="selectPage(currentPage + 1)"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+    </li><li><a ng-click="selectPage(numPages)">Last</a></li>
+  </ul>
+  <div><span ng-bind="totalItemCount"></span> Records</div>
+</nav>

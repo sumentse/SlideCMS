@@ -1,0 +1,139 @@
+<div id="slide-management" class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <br/>
+            <br/>
+            <div ng-if="slideState.isLoading">
+                <div ui-view="loader"></div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped" st-table="slideState.display" st-pipe="customPipe" custom-event data-step="2" data-intro="All of your slides you uploaded will show in this table">
+                    <thead>
+                        <tr data-step="1" data-intro="This is the action bar where you can move slides into the recycling bin or restore them. You can also view your download history after you downloaded a slide.">
+                            <th colspan={{slideState.colLength}}>
+                                <div>
+                                    <div class="pull-left">
+                                        <div ng-if="slideState.recycleBinMode === 0">
+                                            <button id="moveToRecycleBtn" class="btn btn-primary" tooltip-placement="bottom" uib-tooltip="Select here to put slides in the recycling bin after selection" ng-click="recycleSlides()" ng-disabled="slideState.isMovingToBin">
+                                                <div ng-if="slideState.isMovingToBin"><i class="fa fa-spinner fa-spin" style="width: 37px"></i></div>
+                                                <div ng-if="!slideState.isMovingToBin"><span class="badge" ng-bind="slideState.selectedRecycle"></span> <i class="fa fa-arrow-right"></i>
+                                                </div>
+                                            </button>
+                                            <button class="btn btn-danger" ng-disabled="slideState.isMovingToBin" ng-click="goToBin()"><i class="fa fa-trash"></i> RECYCLING BIN ITEMS</button>
+                                        </div>
+                                        <div ng-if="slideState.recycleBinMode === 1">
+                                            <button class="btn btn-primary" ng-disabled="slideState.isRestoring" ng-click="goToSlides()">SLIDES</button>
+                                            <button class="btn btn-success" ng-click="restoreSlides()" ng-disabled="slideState.selectedRestore === 0 || slideState.isRestoring">
+                                                <div ng-if="slideState.isRestoring"><i class="fa fa-spinner fa-spin" style="width: 133px"></i></div>
+                                                <div ng-if="!slideState.isRestoring"><i class="fa fa-undo"></i> RESTORE <span class="badge" ng-bind="slideState.selectedRestore"></span></div>
+                                            </button>
+                                            <button class="btn btn-danger" ng-click="deleteSlides()" ng-disabled="slideState.selectedDeletion === 0 || slideState.isRestoring">DELETE <span class="badge" ng-bind="slideState.selectedDeletion"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button class="btn btn-success" ng-click="openDownloadHistory()"><i class="fa fa-history"></i> Download History</button>
+                                    </div>
+                                </div>
+                                <br/>
+                                <br/>
+                            </th>
+                        </tr>
+                        <tr id="column-names" data-step="4" data-intro="You can also select the column names to sort your slides from A-Z or Z-A">
+                            <th class="text-center">Select</th>
+                            <th><span class="clickable" st-sort="Title">Title</span> <small class="text-muted" tooltip-placement="bottom" uib-tooltip="Shows the current iteration of the slide">(version No.)</small></th>
+                            <th class="clickable" st-sort="category">Tags</th>
+                            <th class="clickable" st-sort="is_active">Active <i class="fa fa-question-circle clickable text-primary" tooltip-placement="bottom" uib-tooltip="Active means if the slide is available to see"></i></th>
+                            <th class="clickable" st-sort="access_control">Access Control</th>
+                            <th class="clickable" st-sort="downloadCount">No. of Downloads</th>
+                            <th class="clickable" st-sort="Modified">Date Modified</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr data-step="3" data-intro="You can search and filter slides in this area that you control">
+                            <th style="vertical-align: middle">
+                                <div class="text-center">
+                                    <input type="checkbox" ng-model="slideState.selectAll" ng-click="toggleAll(); isSelected()" />
+                                </div>
+                            </th>
+                            <th>
+                                <div class="input-group">
+                                    <i class="input-group-addon fa fa-slideshare"></i>
+                                    <input class="form-control" st-search="Title" />
+                                </div>
+                            </th>
+                            <th>
+                                <div class="input-group">
+                                    <i class="input-group-addon fa fa-bars"></i>
+                                    <input class="form-control" st-search="slide_categories" />
+                                </div>
+                            </th>
+                            <th>
+                                <select class="form-control" st-search="is_active" ng-model="slideState.is_active" ng-change="refreshTable()">
+                                    <option value="">All</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select class="form-control" st-search="access_control" ng-model="slideState.access_control" ng-change="refreshTable()">
+                                    <option value="">All</option>
+                                    <option value="1">Public</option>
+                                    <option value="0">Private</option>
+                                </select>
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody ng-show="!slideState.isLoading">
+                        <tr ng-repeat="row in slideState.display">
+                            <td>
+                                <div class="text-center">
+                                    <input data-id={{row.ID}} type="checkbox" class="user-checkbox" name="selectedUsers[]" ng-click="isSelected()" />
+                                </div>
+                            </td>
+                            <td><a ui-sref="app.client.central.template({id:row.ID})"><span ng-bind="::row.Title"></span></a> <small class="text-muted clickable" popover-animation="true" popover-trigger="'mouseenter'" uib-popover={{getComment(row.file_metadata)}} popover-placement="right" ng-bind="getVersionNumber(row.file_metadata)"></small></td>
+                            <td>
+                                <div id="badges">
+                                    <span class="badge" ng-repeat="category in row.slide_categories.split(',')" ng-bind="::category"></span>
+                                </div>
+                            </td>
+                            <td ng-switch on="::row.is_active" class="text-center">
+                                <i ng-switch-when="1" class="fa fa-circle text-success"></i>
+                                <i ng-switch-when="0" class="fa fa-circle text-danger"></i>
+                            </td>
+                            <td ng-bind="::row.access_control ? 'Public' : 'Private'"></td>
+                            <td ng-bind="::row.downloadCount"></td>
+                            <td ng-bind="::row.Modified | date:'medium'"></td>
+                            <td>
+                                <div class="action-buttons" ng-if="slideState.recycleBinMode === 0">
+                                    <a class="btn btn-info" ui-sref="app.client.central.slide.edit({id:row.ID})">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-danger" ng-click="recycleSlide(row)">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                                <div class="action-buttons" ng-if="slideState.recycleBinMode === 1">
+                                    <a class="btn btn-success" ng-click="restoreSlide(row)">
+                                        <i class="fa fa-undo"></i>
+                                    </a>
+                                    <a class="btn btn-danger" ng-click="deleteSlide(row)">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan={{slideState.colLength}} class="text-center">
+                                <div st-items-by-page="25" st-pagination="" st-template="views/components/pagination.html"></div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

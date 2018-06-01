@@ -1,0 +1,42 @@
+<div id="sidebar" class="pull-left ng-class:{'hide-sidebar': homeState.toggleSideBar, 'header-on-top':clientState.isHeaderTop, 'header-not-top': !clientState.isHeaderTop}">
+    <div id="sidebar-search">
+        <div id="search-label">
+            <span>Narrow your search</span>
+        </div>
+        <div id="search-actions">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input class="form-control" type="text" ng-model="homeState.searchTerm" my-enter="query()" placeholder="By name">
+            </div>
+            <div class="form-group">
+                <span>Filter</span>
+                <br/>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="homeState.slideType" value="">All</label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="homeState.slideType" value="Powerpoint">Powerpoint</label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="homeState.slideType" value="Keynote">Keynote</label>
+            </div>
+            <div class="form-group">
+                <span>Sort</span>
+                <br/>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="homeState.sortType" value="">Latest</label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="homeState.sortType" value="True">Ascending</label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="homeState.sortType" value="False">Descending</label>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-danger" ng-click="clear()">Clear</button>
+                <button class="btn btn-primary" ng-click="query()">Search</button>
+            </div>
+        </div>
+    </div>
+    <div id="sidebar-actions">
+        <ul>
+            <li><i class="fa text-primary clickable ng-class:{'fa-toggle-left': !homeState.toggleSideBar, 'fa-toggle-right': homeState.toggleSideBar}" ng-click="toggle()"></i></li>
+        </ul>
+    </div>
+</div>

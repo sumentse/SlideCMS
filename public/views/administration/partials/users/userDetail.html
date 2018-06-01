@@ -1,0 +1,36 @@
+<div id="user-details">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Edit</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row" ng-init="getUserDetails()">
+        <div class="col-xs-12 col-md-4 user-info">
+            <div class="text-center">
+                <img class="img-circle" imageonload ng-src="https://one.mskcc.org/sites/my/User%20Photos/Profile%20Pictures/{{userState.display.email.split('@')[0]}}_LThumb.jpg" alt="">
+                <br/>
+                <br/>
+                <div><strong ng-bind="userState.display.full_name"></strong></div>
+                <div><a ng-href="mailto:{{userState.display.email}}"><span ng-bind="userState.display.email"></span></a></div>
+            </div>
+            <br/>
+        </div>
+        <div class="col-xs-12 col-md-8 vertical-border">
+            <div class="form-group">
+                <label for="is_admin">Role</label>
+                <select id="is_admin" ng-options="is_admin as is_admin.name for is_admin in userState.statusCategoryList track by is_admin.name" ng-model="userState.is_admin" class="form-control"></select>
+                <small class="form-text text-muted">Select an account type</small>
+            </div>
+            <div class="clearfix">
+                <div class="pull-right">
+                    <a ui-sref="app.administration.users.list" class="btn btn-danger">Cancel</a> </button>
+                    <button class="btn btn-info" ng-disabled="userState.userClicked" ng-click="updateInformation(userState)"><i class="fa fa-pencil"></i> Update Information</button>
+                </div>
+            </div>
+            <br/>
+            <div uib-alert ng-repeat="alert in userState.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" dismiss-on-timeout="3000"><i class="fa ng-class:{'fa-check-circle': alert.type === 'success', 'fa-exclamation-circle' : alert.type === 'danger'}"></i> <span ng-bind="alert.msg"></span></div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+</div>

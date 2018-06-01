@@ -1,0 +1,172 @@
+<form ng-submit="updateInformation()" name="slideForm">
+    <div class="col-xs-12 col-md-4 user-info">
+        <div id="file-drop-container" class="text-center" data-step="1" data-intro="You can swap your slide here by selecting the file swap icon or by dragging and dropping your slide in the container box.">
+            <h3 class="steps">Step 1</h3>
+            <div class="drop-box"
+                 ngf-drop="uploadFiles($files, $invalidFiles)" 
+                 ngf-max-size="50MB"
+                 accept=".key,.pptx"
+                 name="file" 
+                 ngf-drag-over-class="'dragover'" 
+                 ngf-multiple="false" 
+                 ngf-pattern="'.key,.pptx'">
+                <div id="drop-select" 
+                     class="fa-stack fa-3x" 
+                     ngf-max-size="50MB" 
+                     accept=".key,.pptx"
+                     ngf-pattern="'.key,.pptx'"
+                     ngf-multiple="false" 
+                     ngf-select="uploadFiles($files, $invalidFiles)">
+                    <i class="fa fa-file fa-stack-2x ng-class:{'text-muted':!isTemplate(slideState.form.files), 'text-primary':isTemplate(slideState.form.files)}"></i>
+                    <i class="fa fa-exchange animated fa-stack-1x ng-class:{'flip': isTemplate(slideState.form.files)}"></i>
+                </div>
+                <p id="drag-tip">Drag/Drop a Powerpoint or 
+                    <br/> or Keynote file here to swap
+                    <br/>
+                    <span class="small text-danger">Max file size 50MB</span>
+                    <br/>
+                    <span class="small text-danger">.pptx or .key accepted</span>
+                </p>               
+            </div>
+            <br>
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+        </div>
+        <div ng-switch on="slideState.form.files.length > 0" data-step="2" data-intro="You can view information about the current slide uploaded or any new one you swap. You can also control the version history after you successfully swap out a slide.">
+            <br/>
+            <div class="has-attachments" ng-switch-when="true">
+                <div>
+                    <p><span ng-bind="getMetaFor('slide', slideState.form.files, slideState.form.file_metadata).name"></span></p>
+                    <p>Slide Cover: <span ng-bind="getMetaFor('image', slideState.form.files, slideState.form.file_metadata).name"></span></p>
+                    <p>Last Modified: <span ng-bind="getMetaFor('slide', slideState.form.files, slideState.form.file_metadata).lastModifiedDate | date"></span></p>
+                    <p>Size: <span ng-bind="getMetaFor('slide', slideState.form.files, slideState.form.file_metadata).size | bytes"></span></p>
+                </div>
+            </div>
+            <div class="has-no-attachments" ng-switch-when="false">
+                <div ng-repeat="files in slideState.form.file_metadata | filter:{'default':1}">
+                    <p><span ng-bind="files.name"></span></p>
+                    <p>Slide Cover: <a ng-href="{{files.slideCover}}" target="_blank"><span ng-bind="files.slideCover.split('/').pop()"></span></a></p>
+                    <p>Last Modified: <span ng-bind="files.lastModified | date"></span></p>
+                    <p>Size: <span ng-bind="files.size | bytes"></span></p>
+                </div>
+            </div>
+            <br/>
+        </div>
+        <div id="manage-version-history" class="text-center" ng-if="slideState.form.file_metadata.length > 1">
+            <div class="btn btn-info" ng-click="manageVersionHistory()"><i class="fa fa-clock-o"></i> Manage Version History</div>
+        </div>
+    </div>
+    <div id="form-fields-container" class="col-xs-12 col-md-8 vertical-border">
+        <h3 class="steps">Step 2</h3>
+        <div class="form-group">
+            <label for="slide-title">Title <span class="text-danger">(Required)</span></label>
+            <input id="slide-title" ng-model="slideState.form.title" class="form-control" ng-trim="false" maxlength={{characterLimit.title}} type="text" placeholder="What's the name of the slide?">
+            <small class="text-muted">Character Limit: <span ng-bind="characterLimit.title - slideState.form.title.length"></span> <span class="text-danger ng-class:{'animated flash': slideState.form.title.length === characterLimit.title, 'hide': slideState.form.title.length !== characterLimit.title}">(You reach the maximum characters allowed)</span></small>
+        </div>
+        <div class="form-group" data-step="3" data-intro="You can also swap out the current thumbnail in your slide.">
+            <label for="thumbnail-preview">Thumbnail of Slide <span class="text-danger">(Required)</span></label>
+            <div class="image-drop-box" ngf-accept="'image/jpeg,image/png'" ngf-drop="uploadFiles($files, $invalidFiles)" ngf-max-size="5MB" ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-pattern="'image/jpeg,image/png'">
+                <div id="drop-select" class="fa-stack fa-3x" ngf-max-size="5MB" ngf-accept="'image/jpeg,image/png'" ngf-pattern="'image/jpeg,image/png'" ngf-select="uploadFiles($files, $invalidFiles)" ngf-multiple="false">
+                    <i class="fa fa-image fa-stack-2x ng-class:{'text-muted':!isImage(slideState.form.files), 'text-primary':isImage(slideState.form.files)}"></i>
+                    <i class="fa fa-check animated fa-stack-1x ng-class:{'hide':!isImage(slideState.form.files), 'fadeInUp': isImage(slideState.form.files), 'fadeOutDown':!isImage(slideState.form.files)}"></i>
+                </div>
+                <p id="drag-tip">Drag/Drop <strong>Thumbnail image</strong> here to swap
+                    <br/>
+                    <span class="small text-danger">Max file size 5MB</span>
+                    <br/>
+                    <span class="small text-danger">.jpeg or .png accepted</span>
+                    <br/><br/>
+                    <div>
+                        <span class="small">How to export an image cover for</span>
+                        <br/>
+                        <span class="small">(<a href="/sites/pub/ha/App/SlideCentral/HOW%20TO%20export%20preview%20Keynote.pdf" target="_blank">KEYNOTE</a> | <a href="/sites/pub/ha/App/SlideCentral/HOW%20TO%20export%20preview%20Powerpoint.pdf" target="_blank">POWERPOINT</a>)</span>  
+                    </div>     
+                </p>
+            </div>
+            <br>
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+            <div class="text-center">
+                <preview-image files="slideState.form.files"></preview-image>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" ng-model="slideState.form.slide_description" class="form-control" ng-trim="false" maxLength={{characterLimit.slide_description}} placeholder="Write a short description of the slide" rows="4"></textarea>
+            <small class="text-muted">Character Limit: <span ng-bind="characterLimit.slide_description - slideState.form.slide_description.length"></span> <span class="text-danger ng-class:{'animated flash': slideState.form.slide_description.length === characterLimit.slide_description, 'hide': slideState.form.slide_description.length !== characterLimit.slide_description}">(You reach the maximum characters allowed)</span></small>
+        </div>
+        <div id="category-list" class="form-group">
+            <label for="category">Category <span class="text-muted">(You can select multiple categories)</span></label>
+            <br/>
+            <div class="scroll-container">
+                <div class="clickable" ng-repeat="category in slideState.slideCategoryList" ng-click="toggleCategory(category)"><i class="fa ng-class:{'fa-plus text-muted': !isCategorySelected(category), 'fa-check text-success': isCategorySelected(category)}"></i><span class="ng-class:{'text-success':isCategorySelected(category)}" ng-bind="category"></span></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="access_control">Access Control</label>
+            <br>
+            <div class="btn-group" id="access_control">
+                <label class="btn ng-class:{'btn-inactive':slideState.form.access_control == null || slideState.form.access_control === 0, 'btn-primary': slideState.form.access_control === 1}" ng-model="slideState.form.access_control" uib-btn-radio="1" uib-uncheckable="uncheckable">Public</label>
+                <label class="btn ng-class:{'btn-inactive':slideState.form.access_control == null || slideState.form.access_control === 1, 'btn-primary': slideState.form.access_control === 0}" ng-model="slideState.form.access_control" uib-btn-radio="0" uib-uncheckable="uncheckable">My Slides</label>
+            </div>
+            <br/>
+            <br/>
+            <!-- SEARCH WIDGET -->
+            <div id="search-widget-container" search-widget="slideState.searchWidgetEnable" class="animated insight well ng-class:{'hidden':slideState.form.access_control === 1}">
+                <div class="input-group">
+                    <i class="input-group-addon fa fa-search ng-class:{'focus':slideState.searchWidgetEnable}"></i>
+                    <input placeholder="Who should have access to view your slides?" ng-focus="openSearchWidget()" type="text" class="form-control ng-class:{'focus':slideState.searchWidgetEnable}" ng-model="slideState.form.searchUserQuery" ng-change="searchUser(slideState.form.searchUserQuery)">
+                    <div class="input-group-btn" ng-if="slideState.searchWidgetEnable">
+                        <span class="btn btn-primary" style="padding-bottom: 7px" ng-click="closeSearchWidget()">Done</span>
+                    </div>
+                </div>
+                <div class="scroll-container">
+                    <div class="users-with-access">
+                        <div class="permissioned-user animate-row" ng-repeat="user in slideState.form.permissioned_users | orderBy:'full_name'">
+                            <img imageonload ng-src="https://one.mskcc.org/sites/my/User%20Photos/Profile%20Pictures/{{user.email.split('@')[0]}}_LThumb.jpg" class="img-circle" /> <span ng-bind="user.full_name"></span>
+                            <i class="fa fa-minus-circle pull-right text-danger" ng-click="removeUser(user)"></i>
+                        </div>
+                    </div>
+                    <div class="search-widget animated ng-class:{'fadeIn':slideState.searchWidgetEnable, 'hide': !slideState.searchWidgetEnable}">
+                        <div ng-show="slideState.searchUserResults.length === 0">
+                            <br/> No user found
+                        </div>
+                        <div class="assign-user animate-row" ng-click="assignUser(user)" ng-repeat="user in slideState.searchUserResults">
+                            <i class="fa ng-class:{'fa-plus text-muted': !isRowSelected(user), 'fa-check text-success': isRowSelected(user)}"></i> <img imageonload ng-src="https://one.mskcc.org/sites/my/User%20Photos/Profile%20Pictures/{{user.email.split('@')[0]}}_LThumb.jpg" class="img-circle" /> <span ng-class="{'text-success':isRowSelected(user)}" ng-bind="user.full_name"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END OF SEARCH WIDGET -->
+        </div>
+        <div class="form-group">
+            <label for="is_active">Status</label>
+            <br/>
+            <div class="btn-group" id="is_active">
+                <label class="btn ng-class:{'btn-inactive':slideState.form.is_active == null || slideState.form.is_active === 0, 'btn-success': slideState.form.is_active === 1}" ng-model="slideState.form.is_active" uib-btn-radio="1" uib-uncheckable="uncheckable">Active</label>
+                <label class="btn ng-class:{'btn-inactive':slideState.form.is_active == null || slideState.form.is_active === 1, 'btn-danger': slideState.form.is_active === 0}" ng-model="slideState.form.is_active" uib-btn-radio="0" uib-uncheckable="uncheckable">Inactive</label>
+            </div>
+        </div>
+        <div class="form-group" ng-show="slideState.enableComment">
+            <label for="comment">Comment</label>
+            <textarea id="comment" ng-model="slideState.form.comment" maxlength={{characterLimit.comment}} ng-trim="false" class="form-control" rows="2" placeholder="Write a short comment on what change in your slide"></textarea>
+            <small class="text-muted">Character Limit: <span ng-bind="characterLimit.comment - slideState.form.comment.length"></span> <span class="text-danger ng-class:{'animated flash': slideState.form.comment.length === characterLimit.comment, 'hide': slideState.form.comment.length !== characterLimit.comment}">(You reach the maximum characters allowed)</span></small>
+        </div>
+        <div class="clearfix">
+            <div class="pull-right">
+                <a ng-click="cancel()" class="btn btn-danger">Cancel</a></button>
+                <button data-step="4" data-intro="When you select this button, users that downloaded your slide will be notify by email that there is a new slide update. Every new slide swap will increment a new version, but it will not change if you swap only an image." class="btn btn-success" ng-disabled="slideState.userClicked || slideState.alerts.length > 0"><i class="fa fa-pencil"></i> Update Information</button>
+            </div>
+        </div>
+        <br/>
+        <div ng-if="slideState.uploadingFile" class="animated fadeInUp upload-bar">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin={{slideState.progressBar}} aria-valuemax="100" ng-attr-style="width:{{slideState.progressBar}}%">
+                </div>
+            </div>
+            <div id="progress-bar-message" class="text-center">
+                <p class="animated ng-class:{'fadeOutUp':slideState.progressBar === 100}">Uploading file…</p>
+                <p class="animated ng-class:{'hide':slideState.progressBar !== 100, 'fadeInUp': slideState.progressBar === 100}">Processing Upload…</p>
+            </div>
+        </div>
+        <div uib-alert ng-repeat="alert in slideState.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" dismiss-on-timeout="5000"><i class="fa ng-class:{'fa-check-circle': alert.type === 'success', 'fa-exclamation-circle' : alert.type === 'danger'}"></i> <span ng-bind="alert.msg"></span></div>
+    </div>
+</form>

@@ -1,0 +1,318 @@
+    .clickable {
+        cursor: pointer;
+    }
+
+    #slide-management {
+        [st-sort="category"] {
+            width: 28%;
+        }
+        .action-buttons {
+            width: 85px;
+        }
+        [ng-bind="::row.downloadCount"] {
+            text-align: right;
+            padding-right: 20px;
+        }
+    }
+
+    #version-history-modal {
+
+        h3 {
+            border-bottom: solid $msk_light_gray 1px;
+            margin: 0px;
+            padding-bottom: 20px;
+        }
+
+        .scroll-container {
+            max-height: 350px;
+            overflow-y: scroll;
+        }
+
+        tr:first-child {
+            td {
+                border-top: none;
+            }
+        }
+
+        td:first-child {
+            div {
+                min-width: 35px;
+                max-width: 35px;
+                word-wrap: break-word;
+            }
+        }
+    }
+
+    #download-history-modal {
+        @extend #version-history-modal;
+        h3 {
+            border-bottom: none;
+            padding: 0px;
+        }
+        .close {
+            margin-top: -24px;
+        }
+    }
+
+    .img-responsive {
+        margin: 0px auto;
+    }
+
+    .btn-inactive {
+        background: $msk_light_gray;
+        border: solid $msk_med_gray 1px;
+    }
+
+    .no-margins {
+        margin: 0px;
+    }
+
+    .upload-bar {
+        height: 80px;
+    }
+
+    .drop-box {
+        background: #F8F8F8;
+        border: 5px dashed #DDD;
+        width: 80%;
+        height: 250px;
+        text-align: center;
+        padding-top: 25px;
+        margin: 10px;
+        #drag-tip {
+            margin-top: 10px;
+        }
+    }
+
+    .image-drop-box {
+        @extend .drop-box;
+        height: 260px;
+        margin: 10px auto 0px auto;
+    }
+
+    #signup,
+    #loading {
+        min-height: 100%;
+        /* Fallback for browsers do NOT support vh unit */
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    #page-loading {
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -150px;
+        margin-top: -150px;
+    }
+
+    #category {
+        height: 150px;
+    }
+
+    #badges {
+        .badge {
+            background: $msk_blue;
+            margin: 2px;
+        }
+    }
+
+    #progress-bar-message {
+        position: relative;
+        >p {
+            position: absolute;
+            width: 100%;
+        }
+    }
+
+    #drop-select {
+        cursor: pointer;
+        &:hover {
+            .fa-file {
+                color: $msk_blue;
+            }
+        }
+        .fa-check {
+            margin-top: 8px;
+            color: $white;
+        }
+    }
+
+    .dragover {
+        border: 5px dashed $msk_blue;
+    }
+
+    [name=slideForm] {
+        h3 {
+            text-align: left;
+            margin-top: 0px;
+            user-select: none;
+        }
+        .fa-exchange {
+            color: white;
+            margin-top: 5px;
+        }
+
+        .fa-image:hover {
+            color: $blue3;
+        }
+
+        .user-info {
+            img {
+                width: 40%;
+            }
+        }
+    }
+
+    #category-list {
+        .scroll-container {
+            position: relative;
+            margin: 10px 0px 0px 0px;
+            border-radius: 4px; // background: #FFF;
+            background: #FFF;
+            height: 150px;
+            border: 1px solid #ccc;
+            overflow-y: scroll;
+            >div {
+                position: relative;
+                margin: 0px 15px;
+                padding: 5px 0px;
+                border-bottom: solid $msk_med_gray 1px;
+                &:first-child {
+                    margin-top: 10px;
+                }
+                &:last-child {
+                    border: none;
+                }
+                &:hover {
+                    background: $msk_light_gray;
+                }
+                .fa {
+                    position: absolute;
+                    top: 0px;
+                    cursor: pointer;
+                    padding: 8px;
+                    font-size: 14px;
+                }
+                span {
+                    padding-left: 28px;
+                }
+            }
+        }
+    }
+
+    #search-widget-container {
+        width: 100%;
+        .focus {
+            border: #66afe9 1px solid;
+        }
+        .form-control {
+            border-left: none;
+            box-shadow: none;
+            padding: 6px 4px;
+            &:focus {
+                border-top: 1px solid #66afe9;
+                border-bottom: 1px solid #66afe9;
+                border-right: 1px solid #66afe9;
+            }
+        }
+        .fa-search {
+            border-right: none;
+            background: #FFF; // background: red;
+            padding: 6px 7px;
+        }
+        .scroll-container {
+            position: relative;
+            margin: 10px 0px 0px 0px;
+            border-radius: 4px; // background: #FFF;
+            background: #FFF;
+            height: 200px;
+            border: 1px solid #ccc;
+
+            img {
+                margin: 0px 8px;
+                width: 40px;
+            }
+        }
+
+        .users-with-access {
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            height: 197px;
+            overflow-y: scroll;
+        }
+
+        .permissioned-user {
+            margin: 0px 15px;
+            padding: 5px 0px;
+            border-bottom: solid $msk_med_gray 1px;
+            &:first-child {
+                margin-top: 10px;
+            }
+            &:last-child {
+                border: none;
+            }
+            &:hover {
+                background: $msk_light_gray;
+            }
+            .fa {
+                cursor: pointer;
+                padding: 8px 8px 0px 0px;
+                font-size: 24px;
+            }
+        }
+
+        .search-widget {
+            margin-top: -5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+            width: 100%;
+            height: 210px;
+            background: #FFF;
+            border-radius: 4px;
+            padding: 10px 15px;
+            overflow-y: scroll;
+            .assign-user {
+                height: 60px;
+                line-height: 60px;
+                cursor: pointer;
+                position: relative;
+                padding-left: 25px;
+                border-bottom: solid $msk_med_gray 1px;
+                &:last-child {
+                    border: none;
+                }
+                .fa {
+                    position: absolute;
+                    left: 10px;
+                    top: 20px;
+                }
+                &:hover {
+                    background: $msk_light_gray;
+                }
+            }
+            &:before {
+                content: "";
+                position: absolute;
+                left: 3px;
+                top: -17px;
+                border-style: solid;
+                border-width: 0 12px 12px;
+                border-color: transparent transparent #bbb;
+            }
+            &:after {
+                content: "";
+                position: absolute;
+                left: 3px;
+                top: -15px;
+                border-style: solid;
+                border-width: 0 12px 12px;
+                border-color: transparent transparent #fff;
+            }
+        }
+    }

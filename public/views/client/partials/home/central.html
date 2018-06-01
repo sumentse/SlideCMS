@@ -1,0 +1,22 @@
+<div id="home" ng-init="init()">
+    <!-- SLIDE BAR -->
+    <div ui-view="sidebar" ng-show="!homeState.isLoading"></div>
+    <!-- END OF SLIDE BAR -->
+    <div id="page-wrapper">
+        <div ng-if="homeState.isLoading">
+            <div ui-view="loader"></div>
+        </div>
+        <div>
+            <div class="slide-wrapper">
+                <div class="slide-items clickable" ng-repeat="slide in homeState.slides.slice(homeState.itemsPerPage * (homeState.currentPage -1)) | limitTo:homeState.itemsPerPage" ui-sref="app.client.central.template({id:slide.ID})">
+                    <img ng-src="{{getImage(slide.file_metadata)}}" alt={{slide.Title}}>
+                    <div class="slide-title"><span class="lead"><span ng-bind="slide.Title"></span></span><span class="file-type" ng-bind="slide.slide_type"></span></div>
+                </div>
+            </div>
+            <div class="text-center" ng-show="homeState.totalItems > 0">
+                <ul uib-pagination total-items="homeState.totalItems" items-per-page="homeState.itemsPerPage" ng-model="homeState.currentPage" max-size="5" force-ellipses="true" class="pagination-sm" boundary-links="true"></ul>
+                <div>Results: <span ng-bind="homeState.totalItems"></span></div>
+            </div>
+        </div>
+    </div>
+</div>

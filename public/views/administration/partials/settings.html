@@ -1,0 +1,65 @@
+<div id="settings">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Settings – General</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <form name="appSettings">
+            <div class="col-xs-12 col-lg-7">
+                <div class="navbar-form form-group">
+                    <label for="applicationName">Application Name</label>
+                    <input type="text" id="applicationName" class="form-control" ng-model="configState.applicationName">
+                </div>                
+                <div class="navbar-form form-group">
+                    <label for="slideLimit">Maximum Slides (System max is 5000) </label>
+                    <input type="number" id="slideLimit" class="form-control" min="1" max="5000" ng-model="configState.slideLimit">
+                </div>
+                <div class="navbar-form form-group">
+                    <label for="itemsPerPage">Items per page </label>
+                    <input type="number" id="itemsPerPage" class="form-control" min="1" max="100" ng-model="configState.itemsPerPage">
+                </div>
+                <div class="navbar-form form-group">
+                    <label for="shouldSideBarHide">Hide Sidebar</label>
+                    <div class="btn-group" id="shouldSideBarHide">
+                        <label class="btn ng-class:{'btn-inactive':configState.hideSideBar == null || configState.hideSideBar === false, 'btn-success':configState.hideSideBar === true}" ng-model="configState.hideSideBar" uib-btn-radio="true" uib-uncheckable="uncheckable">On</label>
+                        <label class="btn ng-class:{'btn-inactive':configState.hideSideBar == null || configState.hideSideBar === true,'btn-danger':configState.hideSideBar === false}" ng-model="configState.hideSideBar" uib-btn-radio="false" uib-uncheckable="uncheckable">Off</label>
+                    </div>
+                </div>
+                <br>
+                <label for="slideCategories">Slide Tags</label>
+                <div class="animated insight well">
+                	<div class="input-group">
+		                <input type="text" id="slideCategories" class="form-control" my-enter="addCategory(uiState.categoryInput)" ng-model="uiState.categoryInput">
+		                <div class="input-group-btn">
+	                		<span style="padding-bottom: 7px" class="btn btn-success fa fa-plus" ng-click="addCategory(uiState.categoryInput)"></span>
+		                </div>            		
+                	</div>
+                    <div class="scroll-container">
+                        <div class="category-items animate-row" ng-repeat="category in configState.slideCategories track by $index">
+                            <span ng-bind="category"></span>
+                            <span class="fa-stack fa-lg pull-right">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-minus-circle text-danger fa-stack-2x" ng-click="removeCategory(category)"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix text-center">
+                	<br/>
+                    <div>
+                        <button class="btn btn-danger" ng-click="resetDefaultSettings()" ng-disabled="uiState.disableBtn"><i class="fa fa-clock-o"></i> <span>Restore Default Settings</span></button>
+                        <button type="button" ng-click="updateSettings()" class="btn btn-success" ng-disabled="uiState.disableBtn"><i class="fa fa-pencil"></i> <span>Update</span></button>
+                    </div>
+                </div>              
+            </div>
+        </form>
+    </div>
+    <div class="row text-center">
+        <div class="col-xs-12 col-lg-7">
+            <br/><br/>
+            <p>Last updated <time-ago from-time={{uiState.modified}}></time-ago></p>
+        </div>
+    </div>
+</div>

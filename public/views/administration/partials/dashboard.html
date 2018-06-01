@@ -1,0 +1,136 @@
+<div id="dashboard">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Dashboard</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-slideshare fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge" ng-bind="dashboardState.totals.slides"></div>
+                            <div>Total Slides</div>
+                        </div>
+                    </div>
+                </div>
+                <a ui-sref="app.administration.slides.list">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-users fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge" ng-bind="dashboardState.totals.users"></div>
+                            <div>Total Users</div>
+                        </div>
+                    </div>
+                </div>
+                <a ui-sref="app.administration.users.list">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-id-badge fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge" ng-bind="dashboardState.totals.downloads"></div>
+                            <div>Total Downloads</div>
+                        </div>
+                    </div>
+                </div>
+                <a ui-sref="app.administration.slides.list">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-key fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge" ng-bind="dashboardState.totals.admins"></div>
+                            <div>Total Admins</div>
+                        </div>
+                    </div>
+                </div>
+                <a ui-sref="app.administration.users.list({is_admin:'1'})">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a ui-sref="app.administration.slides.edit({id:dashboardState.notifications.latestSlide.ID})" class="list-group-item" ng-if="dashboardState.notifications.latestSlide">
+                            <i class="fa fa-slideshare fa-fw"></i> New Slide
+                            <span class="pull-right text-muted small"><em><time-ago from-time={{dashboardState.notifications.latestSlide.Created}}></time-ago></em>
+                            </span>
+                        </a>
+                        <a ui-sref="app.administration.users.edit({id:dashboardState.notifications.latestUser.ID})" class="list-group-item" ng-if="dashboardState.notifications.latestUser">
+                            <i class="fa fa-user fa-fw"></i> New User
+                            <span class="pull-right text-muted small "><em><time-ago from-time={{dashboardState.notifications.latestUser.Created}}></time-ago></em></em>
+                            </span>
+                        </a>
+                        <a ui-sref="app.administration.users.edit({id:dashboardState.notifications.latestAdminUser.ID})" class="list-group-item" ng-if="dashboardState.notifications.latestAdminUser">
+                            <i class="fa fa-key fa-fw"></i> New Admin User
+                            <span class="pull-right text-muted small "><em><time-ago from-time={{dashboardState.notifications.latestAdminUser.Created}}></time-ago></em></em>
+                            </span>
+                        </a>
+                        <a ui-sref="app.administration.settings.general" class="list-group-item" ng-if="dashboardState.notifications.latestConfigurationUpdate">
+                            <i class="fa fa-gear fa-fw"></i> Last Configuration Update
+                            <span class="pull-right text-muted small"><em><time-ago from-time={{dashboardState.notifications.latestConfigurationUpdate}}></time-ago></em></em>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+
+        <!-- /.row -->
+    </div>

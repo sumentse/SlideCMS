@@ -1,0 +1,28 @@
+<div>
+    <header class="modal-header">
+        <button ng-click="closeModal()" type="button" class="close"><i class="fa fa-close"></i></button>
+    </header>
+    <main class="modal-body">
+        <p>To delete the selected item(s) type in <strong ng-bind-html="modalState.code"></strong> on the input box to complete.</p>
+        <div class="input-group">
+            <input class="form-control" type="text" ng-change="checkLength()" ng-model="modalState.deletionCode" uppercase-only>
+            <div class="input-group-btn">
+                <button class="btn btn-danger" style="padding-bottom: 7px" ng-click="confirmDelete(modalState.deletionCode)" ng-disabled="modalState.deletionCode.length !== 6 || modalState.inProgressDelete"><i class="fa fa-trash"></i> Delete</button>
+            </div>
+        </div>
+        <br/>
+        <div ng-if="modalState.showProgressBar" class="animated fadeInUp upload-bar">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin={{modalState.progressBar}} aria-valuemax="100" ng-attr-style="width:{{modalState.progressBar}}%">
+                </div>
+            </div>
+            <div id="progress-bar-message" class="text-center">
+                <p class="animated ng-class:{'fadeOutUp':modalState.progressBar === 100}">Deleting file…</p>
+                <p class="animated ng-class:{'hide':modalState.progressBar !== 100, 'fadeInUp': modalState.progressBar === 100}">Finishing up deletion…</p>
+            </div>
+        </div>        
+        <div uib-alert ng-repeat="alert in modalState.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" dismiss-on-timeout="5000"><i class="fa ng-class:{'fa-check-circle': alert.type === 'success', 'fa-exclamation-circle' : alert.type === 'danger'}"></i> <span ng-bind="alert.msg"></span></div>
+    </main>
+    <footer class="modal-footer">
+    </footer>
+</div>

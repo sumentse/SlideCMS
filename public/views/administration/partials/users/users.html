@@ -1,0 +1,102 @@
+<div id="user-management">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Users</h1>
+            <p>Use this to <strong>Create</strong>, <strong>Edit</strong>, and <strong>Delete</strong> users</p>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div ng-if="userState.isLoading">
+                <div ui-view="loader"></div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped" st-table="userState.display" st-pipe="customPipe" custom-event>
+                    <thead>
+                        <tr>
+                            <th colspan={{userState.colLength}}>
+                                <div>
+                                    <div class="pull-left">
+                                        <a ui-sref="app.administration.users.add" class="btn btn-primary"><i class="fa fa-plus"></i> NEW</a>
+                                        <button class="btn btn-danger" ng-disabled="userState.disableDeleteAllBtn" ng-click="deleteUsers()"><i class="fa fa-trash"></i> DELETE USERS <span class="badge" ng-bind="userState.selectedDeletion"></span></button>
+                                    </div>
+                                </div>
+                                <br/>
+                                <br/>
+                            </th>
+                        </tr>
+                        <tr id="column-names">
+                            <th class="text-center">Select</th>
+                            <th class="clickable" st-sort="full_name">Name</th>
+                            <th class="clickable" st-sort="email">Email</th>
+                            <th st-sort="is_admin">Role</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr>
+                            <th style="vertical-align: middle">
+                                <div class="text-center">
+                                    <input type="checkbox" ng-model="userState.selectAll" ng-click="toggleAll(); isSelected()" />
+                                </div>
+                            </th>
+                            <th>
+                                <div class="input-group">
+                                    <i class="input-group-addon fa fa-user"></i>
+                                    <input class="form-control" st-search="full_name" />
+                                </div>
+                            </th>
+                            <th>
+                                <div class="input-group">
+                                    <i class="input-group-addon fa fa-envelope"></i>
+                                    <input class="form-control" st-search="email" />
+                                </div>
+                            </th>
+                            <th>
+                                <select class="form-control" st-search="is_admin" ng-model="userState.is_admin" ng-change="refreshTable()">
+                                    <option value="">All</option>
+                                    <option value="1">Admin</option>
+                                    <option value="0">Standard</option>
+                                </select>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody ng-show="!userState.isLoading">
+                        <tr ng-repeat="row in userState.display">
+                            <td>
+                                <div class="text-center">
+                                    <input data-id={{row.ID}} data-is-admin={{row.is_admin}} type="checkbox" class="user-checkbox" name="selectedUsers[]" ng-click="isSelected()" />
+                                </div>
+                            </td>
+                            <td ng-bind="row.full_name"></td>
+                            <td><a href="mailto:{{row.email}}" target="_blank"><span ng-bind="row.email"></span></a></td>
+                            <td ng-bind="row.is_admin ? 'Admin' : 'Standard'"></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a class="btn btn-info" ui-sref="app.administration.users.edit({id:row.ID})">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                    <a class="btn btn-danger" ng-click="deleteUser(row)">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan={{userState.colLength}} class="text-center">
+                                <div st-items-by-page="25" st-pagination="" st-template="views/components/pagination.html"></div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div uib-alert ng-repeat="alert in userState.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" dismiss-on-timeout="5000"><i class="fa ng-class:{'fa-check-circle': alert.type === 'success', 'fa-exclamation-circle' : alert.type === 'danger'}"></i> <span ng-bind="alert.msg"></span></div>
+        </div>
+    </div>
+</div>

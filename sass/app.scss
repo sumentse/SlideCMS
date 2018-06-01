@@ -1,0 +1,81 @@
+@import "https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.min.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css";
+@import "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+@import "./node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "core/msk_colors";
+@import "core/animations";
+@import "core/globals";
+
+@mixin jumbotron() {
+    .jumbotron {
+        background: transparent;
+        .fa {
+            font-size: 5em;
+        }
+    }  
+}
+
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+    display: none !important;
+}
+
+body {
+    margin: 0px;
+    font-family: 'arial';
+}
+
+#angular-container {
+    @include jumbotron;
+    #administration {
+        @import "_partials/admin";
+    }
+
+    #client {
+        @import "_partials/client";
+    }
+
+    @import "core/responsivemedia";
+
+    .st-sort-ascent:before {
+        content: '\25B2';
+    }
+
+    .st-sort-descent:before {
+        content: '\25BC';
+    }
+
+    .table {
+        .select-page {
+            width: 50px;
+            text-align: center;
+        }
+        th {
+            background: $white;
+            tr>th {
+                border-bottom: 0px;
+            }
+        }
+        .pagination {
+            margin-bottom: 10px;
+            a {
+                cursor: pointer;
+            }
+            li a input {
+                padding: 0;
+                margin: -5px 0;
+            }
+        }
+    }
+
+    #column-names th {
+        vertical-align: middle;
+    }
+
+
+}

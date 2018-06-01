@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="author" content="Sumen Tse">
+    <meta name="description" content="CMS for sharing presentations internally">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>SlideCentral – Share your slides</title>
+    <link rel="stylesheet" type="text/css" href="css/app.min.css">
+    <!-- <base href="/"> -->
+</head>
+
+<body ng-app="app">
+    <div id="angular-container">
+        <div id="page-loading" class="jumbotron">
+            <div class="container text-center">
+                <i class="fa fa-spinner fa-spin text-primary"></i>
+            </div>
+        </div>
+        <div ui-view></div>
+    </div>
+    <script src="js/bundle.min.js"></script>
+</body>
+
+</html>

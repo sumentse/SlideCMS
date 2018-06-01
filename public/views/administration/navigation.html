@@ -1,0 +1,43 @@
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" ng-click="adminState.isNavCollapsed = !adminState.isNavCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" ui-sref="app.administration.dashboard"><span ng-bind="adminState.applicationName"></span> Admin v1.0</a>
+    </div>
+    <!-- /.navbar-header -->
+    <ul class="nav navbar-top-links navbar-right">
+        <!-- /.dropdown -->
+        <li><a ui-sref="app.client.central"><i class="fa fa-home fa-fw"></i></a></li>
+        <li><a ui-sref="app.administration.users.edit({id:navigationState.profileID})"><i class="fa fa-user fa-fw"></i></a></li>
+    </ul>
+    <!-- /.navbar-top-links -->
+    <div class="navbar-default sidebar" uib-collapse="isNavCollapsed" role="navigation">
+        <div class="sidebar-nav navbar-collapse" uib-collapse="adminState.isNavCollapsed">
+            <ul class="nav in" id="side-menu">
+                <li>
+                    <a ui-sref="app.administration.dashboard" ui-sref-active="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a ui-sref="app.administration.users.list" ng-class="{'active':adminState.$state.includes('app.administration.users')}"><i class="fa fa-users fa-fw"></i> Users</a>
+                </li>
+                <li>
+                    <a ui-sref="app.administration.slides.list" ui-sref-active="active"><i class="fa fa-slideshare fa-fw"></i> Slides</a>
+                </li>
+                <li ng-class="{'active': adminState.collapsingMenuName === 'settings'}">
+                    <a ng-class="{'active': adminState.$state.includes('app.administration.settings') && adminState.collapsingMenuName !== 'settings'}" ng-click="toggleMenuCollapse($event, 'settings')"><i class="fa fa-cog fa-fw"></i> Settings<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse ng-class:{'in':  adminState.collapsingMenuName === 'settings'}" aria-expanded="false">
+                        <li>
+                            <a ui-sref="app.administration.settings.general" ui-sref-active="active">General</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <!-- /.navbar-static-side -->
+</nav>
